@@ -1,0 +1,61 @@
+<html>
+<head>
+    <title>Water Meter</title>
+    <script src="/jquery/jquery-1.10.1.js"></script>  <!-- make sure jquery is available! -->
+    <script src="/js/canvasjs.js"></script>
+     <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON("sensorJSON_CH_Sensor1.php", function (result1) {
+                var chart1 = new CanvasJS.Chart("chartContainer1", {
+                          zoomEnabled: true,
+                   panEnabled: true, 
+                    title:{
+                            text: "Residental Water Flow"              
+                    },
+                    axisX:{
+                            title: "Time of Day"
+                    },
+                    axisY:{
+                            title: "Water Usage (Gallons)"
+                    },
+                    data: [   {
+                              type: "area",
+                              xValueType: "dateTime",     <!-- this formatting is crucial, time is stored as LONGINT and is ms since 1970 (UNIX Timestamp multiplied by 100) -->
+                              dataPoints: result1  }    ]
+                });
+                chart1.render();
+            });
+        });
+    </script>
+         <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON("sensorJSON_CH_Sensor2.php", function (result1) {
+                var chart2 = new CanvasJS.Chart("chartContainer2", {
+                    zoomEnabled: true,
+                    panEnabled: true, 
+                    title:{
+                            text: "Temperature near the ceiling."              
+                    },
+                    data: [   {
+                              type: "line",
+                              xValueType: "dateTime",     <!-- this formatting is crucial, time is stored as LONGINT and is ms since 1970 (UNIX Timestamp multiplied by 100) -->
+                              dataPoints: result1  }    ]
+                });
+                chart2.render();
+            });
+        });
+    </script>
+  
+
+</head>
+<body>
+    <h2>This page is a display of Water Usage </h2>
+    <h2>Gathered by Kyle Skey from the water meter in his basement.</h2>
+    <div id="chartContainer1" style="width: 500px; height: 300px;"></div>
+    <!--<div id="chartContainer2" style="width: 500px; height: 300px;"></div>-->
+    <div id="chartContainer3" style="width: 500px; height: 300px;"></div>
+    <h2>For this project two analog sensors, LM 34 DZ, were utilized.</h2>
+    <h2>The data gathered is intended to assist the Chemistry department in monitoring temps to help safeguard the NMR unit.</h2>
+</body>
+</html>
+ 

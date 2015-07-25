@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>SENSOR DATA</title>
+    <script src="/jquery/jquery-1.10.1.js"></script>  <!-- make sure jquery is available! -->
+    <script src="/js/canvasjs.js"></script>
+     <script type="text/javascript">
+        $(document).ready(function () {
+            $.getJSON("sensorJSON_ND_Temp.php", function (result) {
+                var chart = new CanvasJS.Chart("chartContainer", {
+                          zoomEnabled: true,
+                   panEnabled: true, 
+                    data: [   {
+                              type: "line",
+                              xValueType: "dateTime",     <!-- this formatting is crucial, time is stored as LONGINT and is ms since 1970 (UNIX Timestamp multiplied by 100) -->
+                              dataPoints: result  }    ]
+                });
+                chart.render();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>This page is a display of Temperature and Humidity Data acquired at Nate Deparis' home</h2>
+    <div id="chartContainer" style="width: 800px; height: 380px;"></div>
+    <h2>This calls sensorJSON_DP.php to connect to the Mysql DB hosted on Cape Green Energy</h2>
+    <h2>sensorJSON_DP echos the requested data in JSON format for use by the javascript graphing package CanvasJS</h2>
+</body>
+</html>
+ 
